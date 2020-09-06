@@ -2,23 +2,34 @@ import cv2
 import sys
 import os
 
+# Exception handling
+#argument check
 if len(sys.argv) != 3:
 	raise Exception('Invariant Number of Arguments passed.Please pass one video path and one compress percentage')
 
+#file type check
 t = str(sys.argv[1]).split(".")
 if t[1] not in ["mp4","wav"]:
 	raise Exception('Raise Exception incompatible file type only mp4 or wav required')
 
+#range of compression check
+if int(sys.argv[2]) not in range(1,100):
+	raise Exception('Compress percent should be in range 1-99')
+
+# file existence check
 if not os.path.exists(sys.argv[1]):
 	raise Exception('the video file does not exists or the path is incorrect')
 
+
+# resizing all frames
 def rescale_frame(frame, percent=75):
     width = int(frame.shape[1] * percent/ 100)
     height = int(frame.shape[0] * percent/ 100)
     dim = (width, height)
-    return cv2.resize(frame, dim, interpolation =cv2.INTER_CUBIC)
+    return cv2.resize(frame, dim)
 
 
+# getting video and then processing it and saving in filename_ouput.mp4
 cap = cv2.VideoCapture(str(sys.argv[1]))
 width  = (cap.get(3) * int(sys.argv[2]))/ 100
 height = (cap.get(4) * int(sys.argv[2]))/ 100

@@ -2,16 +2,22 @@ import cv2
 import sys
 import os
 
+#Exception Handling
+#Arguments check
 if len(sys.argv) != 2:
 	raise Exception('Invariant Number of Arguments passed')
 
+#File type check
 t = str(sys.argv[1]).split(".")
 if t[1] not in ["mp4","wav"]:
 	raise Exception('Raise Exception incompatible file type only mp4 or wav required')
 
+# Video existence check
 if not os.path.exists(sys.argv[1]):
 	raise Exception('the video file does not exists or the path is incorrect')
 
+
+# getting video file and processing it and saving as filename_output.mp4
 cap = cv2.VideoCapture(str(sys.argv[1]))
 width  = cap.get(3) 
 height = cap.get(4) 
